@@ -24,6 +24,12 @@ class MakiniApp(MDApp):
         self.screen_manager.add_widget(SelectOperationScreen())
         self.screen_manager.add_widget(QuizScreen())
         self.screen_manager.add_widget(FinalScoreScreen())
+
+        self.screen_manager.add_widget(ScienceStartScreen())
+
+        self.screen_manager.add_widget(FinancialLiteracyStartScreen())
+
+        self.screen_manager.add_widget(ConservationStartScreen())
         return self.screen_manager
 
     def change_screen(self, screen_name):

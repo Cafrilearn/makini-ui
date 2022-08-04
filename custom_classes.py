@@ -205,3 +205,15 @@ class CircularProgressBar(AnchorLayout):
             self.set_value = self.counter
         else:
             Clock.unschedule(self.percentage_counter)
+
+
+class ScienceStartScreen(Screen):
+    """ Implements the Science start screen """
+
+
+class FinancialLiteracyStartScreen(Screen):
+    """ Implements the Financial Literacy start screen """
+
+
+class ConservationStartScreen(Screen):
+    """ Implements the Conservation start screen """

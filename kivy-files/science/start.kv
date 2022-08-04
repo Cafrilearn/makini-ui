@@ -1,0 +1,59 @@
+#:import hex_color kivy.utils.get_color_from_hex
+
+<ScienceStartScreen>:
+    name: "Science"
+
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            source: "assets/images/science/science lab.png"
+            allow_stretch: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            keep_ratio: True
+            size_hint_y: None
+            size_hint_x: None
+            width: 220
+            height: 220
+
+        MDLabel:
+            text: "MAKINI SCIENCE LAB"
+            font_name: 'BPoppins'
+            font_size: '23sp'
+            halign: 'center'
+            pos_hint: {'center_x': .5, 'center_y': .85}
+            color: 0, 0, 0, .7
+            line_height: 1.1
+
+        MDLabel:
+            text: "Let's learn science with Makini!"
+            font_name: 'RPoppins'
+            font_size: '15sp'
+            halign: 'center'
+            pos_hint: {'center_x': .5, 'center_y': .77}
+            color: 0, 0, 0, .7
+            line_height: 1.1
+
+        MDRectangleFlatIconButton:
+            icon: "keyboard-backspace"
+            pos_hint: {"center_x": .1, "center_y": .85}
+            text: "Back"
+            theme_text_color: "Custom"
+            text_color: 0, 0, 0, .7
+            line_color: 1, 1, 1, 1
+            font_name: "MPoppins"
+            theme_icon_color: "Custom"
+            icon_color: .5, .5, .5, .8
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'subject-list'
+
+        MDFillRoundFlatButton:
+            text: "Start"
+            font_name: "RPoppins"
+            font_size: '15sp'
+            size_hint: .31, .09
+            md_bg_color : hex_color("#00a18d")
+            pos_hint: {'center_x': .5, 'center_y': .15}
+            on_release:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'select_operation'

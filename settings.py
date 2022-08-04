@@ -19,3 +19,9 @@ Builder.load_file("kivy-files/mathematics/select_operation.kv")
 Builder.load_file('kivy-files/mathematics/quiz.kv')
 Builder.load_file('kivy-files/mathematics/final_score.kv')
 Builder.load_file("kivy-files/mathematics/progressbar.kv")
+
+Builder.load_file("kivy-files/science/start.kv")
+
+Builder.load_file("kivy-files/financial literacy/start.kv")
+
+Builder.load_file("kivy-files/conservation/start.kv")
