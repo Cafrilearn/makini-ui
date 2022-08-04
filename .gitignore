@@ -9,7 +9,6 @@ __pycache__/
 # Pycharm
 .idea/
 .id_ea/
-venv/
 
 # Testing
 test.py

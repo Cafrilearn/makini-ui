@@ -19,10 +19,10 @@ class MakiniApp(MDApp):
             f = open("marker.txt", 'a')
 
     def build(self):
-        # self.screen_manager.add_widget(SubjectListScreen())
-        # self.screen_manager.add_widget(MathStartScreen())
-        # self.screen_manager.add_widget(SelectOperationScreen())
-        # self.screen_manager.add_widget(QuizScreen())
+        self.screen_manager.add_widget(SubjectListScreen())
+        self.screen_manager.add_widget(MathStartScreen())
+        self.screen_manager.add_widget(SelectOperationScreen())
+        self.screen_manager.add_widget(QuizScreen())
         self.screen_manager.add_widget(FinalScoreScreen())
         return self.screen_manager
 
