@@ -1,0 +1,108 @@
+#:import hex_color kivy.utils.get_color_from_hex
+
+<SlideImage@Image>:
+    id: image_source
+    pos_hint: {'center_x': .5, 'center_y': .45}
+    size_hint_y: None
+    size: 150, 150
+    allow_stretch: True
+
+<SlideHeading@MDLabel>:
+    padding_x: 16
+    pos_hint: {'center_x': .5, 'center_y': .8}
+    halign: 'center'
+    font_size: "20sp"
+    font_name: "BPoppins"
+
+<SlideBody@MDLabel>:
+    size_hint_x: .88
+    pos_hint: {'center_x': .5, 'center_y': .73}
+    font_name: "MPoppins"
+    font_size: "15sp"
+    color: rgba(135, 143, 158, 255)
+    halign: 'center'
+
+<SlideNext@MDIconButton>:
+    icon: "arrow-right"
+    theme_text_color: "Custom"
+    type: 'large'
+    text_color: rgba(50, 44, 106, 255)
+    pos_hint: {"center_x": .88, "center_y": .95}
+
+<SlidePrev@MDIconButton>:
+    icon: "arrow-left"
+    theme_text_color: "Custom"
+    type: 'large'
+    text_color: rgba(50, 44, 106, 255)
+    pos_hint: {"center_x": .12, "center_y": .95}
+
+
+<SlideIndicator@MDLabel>:
+    text: "."
+    font_size: "100sp"
+
+
+<WelcomeScreen>:
+    name:'welcome'
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Carousel:
+            id: carousel
+            scroll_timeout: 1
+            on_current_slide: root.current_slide(self.index)
+
+            MDFloatLayout
+                SlideHeading:
+                    text: "Welcome to Makini"
+                SlideBody:
+                    text: "An immersive teacher in all your studies"
+                SlideImage:
+                    source: 'assets/images/splash screen/1.jpg'
+                SlideNext:
+                    on_release: root.next()
+
+            MDFloatLayout
+                SlideImage:
+                    source: 'assets/images/splash screen/2.jpg'
+                SlideHeading:
+                    text: "Makini is interactive"
+                SlideBody:
+                    text: "Interact with Makini with either voice or UI graphics"
+                SlideNext:
+                    on_release: root.next()
+                SlidePrev:
+                    on_release: root.prev()
+
+            MDFloatLayout
+                SlideImage:
+                    source: 'assets/images/splash screen/3.jpeg'
+                SlideHeading:
+                    text: "Get Started now"
+                SlideBody:
+                    text: "Your study assistant wherever whenever"
+                SlidePrev:
+                    on_release: root.prev()
+
+        SlideIndicator:
+            id: slide0
+            color: hex_color('#00A18D')
+            pos_hint: {'center_x': .95, 'center_y': .26}
+        SlideIndicator:
+            id: slide1
+            color: rgba(233, 237, 240, 255)
+            pos_hint: {'center_x': 1, 'center_y': .26}
+        SlideIndicator:
+            id: slide2
+            color: rgba(233, 237, 240, 255)
+            pos_hint: {'center_x': 1.05, 'center_y': .26}
+
+        MDFillRoundFlatButton:
+            text: "Get Started"
+            font_name: "BPoppins"
+            font_size: '15sp'
+            size_hint: .35, .09
+            md_bg_color : hex_color("#00a18d")
+            pos_hint: {'center_x': .5, 'center_y': .09}
+            on_release:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'subject-list'

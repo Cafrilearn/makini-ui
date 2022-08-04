@@ -1,0 +1,124 @@
+<OptionButton>:
+    orientation: "vertical"
+    option_id: id
+    font_name: "BPoppins"
+    font_size: "60sp"
+    background_color: 1, 1, 1, 0
+    bg_color: 40/255, 6/255, 109/255, 1
+    on_release:
+        app.root.get_screen('quiz').quiz(self.text, self)
+
+    canvas.before:
+        Color:
+            rgb: root.bg_color
+        RoundedRectangle:
+            pos: self.x, self.y + 5
+            size: self.size
+            radius: [10]
+
+<QuizScreen>:
+    question: question
+    name: "quiz"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        Image:
+            pos_hint: {"center_x": .15, "center_y": .75}
+            source: "assets/images/background2.png"
+
+        MDLabel:
+            id: question
+            text: "MULTIPLICATION"
+            font_name: 'BPoppins'
+            font_size: '23sp'
+            halign: 'center'
+            pos_hint: {'center_x': .5, 'center_y': .85}
+            color: 0, 0, 0, .7
+            line_height: 1.1
+
+        MDLabel:
+            id: question
+            text: "Question"
+            font_name: 'MPoppins'
+            font_size: '15sp'
+            halign: 'center'
+            pos_hint: {'center_x': .16, 'center_y': .78}
+            color: 0, 0, 0, .7
+            line_height: 1.1
+            line_spacing: 1
+
+        MDLabel:
+            id: question_number
+            text: "1 of 10"
+            font_name: 'MPoppins'
+            font_size: '15sp'
+            halign: 'center'
+            pos_hint: {'center_x': .24, 'center_y': .78}
+            color: hex_color("#00a18d")
+            line_height: 1.1
+            line_spacing: 1
+
+        MDLabel:
+            id: question
+            text: "49+49 = ?"
+            font_name: 'RPoppins'
+            font_size: '45sp'
+            halign: 'center'
+            pos_hint: {'center_x': .2, 'center_y': .68}
+            color: 0, 0, 0, .7
+            line_height: 1.1
+            line_spacing: 1
+
+        MDRectangleFlatIconButton:
+            icon: "close-circle-outline"
+            pos_hint: {"center_x": .9, "center_y": .85}
+            text: "Quit"
+            theme_text_color: "Custom"
+            text_color: 0, 0, 0, .7
+            line_color: 1, 1, 1, 1
+            font_name: "MPoppins"
+            theme_icon_color: "Custom"
+            icon_color: .5, .5, .5, .85
+            on_release:
+                root.manager.transition.direction = 'left'
+                app.root.get_screen('quiz').final_score()
+
+        MDGridLayout:
+            rows: 1
+            size_hint: .9, 1
+            pos_hint: {"center_x": .5, 'center_y': .42}
+            height: self.minimum_height
+            row_default_height: 150
+            size_hint_y: None
+            padding: [20, 40, 20, 40]
+            spacing: 20
+            OptionButton:
+                id: option_1
+            OptionButton:
+                id: option_2
+            OptionButton:
+                id: option_3
+            OptionButton:
+                id: option_4
+
+        MDRoundFlatButton:
+            text: "Go back"
+            font_name: "RPoppins"
+            font_size: '15sp'
+            text_color: 0, 0, 0, .7
+            size_hint: .31, .09
+            line_color : 0, 0, 0, .7
+            pos_hint: {'center_x': .34, 'center_y': .13}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'select_operation'
+
+        MDFillRoundFlatButton:
+            text: "Next"
+            font_name: "RPoppins"
+            font_size: '15sp'
+            size_hint: .31, .09
+            md_bg_color : hex_color("#00a18d")
+            pos_hint: {'center_x': .66, 'center_y': .13}
+            on_release:
+                root.next_question()

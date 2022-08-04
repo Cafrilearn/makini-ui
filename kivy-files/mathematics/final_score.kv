@@ -1,0 +1,130 @@
+#:import hex_color kivy.utils.get_color_from_hex
+#:import md_icons kivymd.icon_definitions.md_icons
+
+
+<FinalScoreScreen>:
+    correct: correct
+    wrong: wrong
+    percentage_score: percentage_score
+
+    name: "final_score"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        Image:
+            source: "assets/images/bg2.png"
+            pos_hint: {"center_x": .65, "center_y": .55}
+        Image:
+            source: "assets/images/bg3.png"
+            pos_hint: {"center_x": .75, "center_y": .35}
+
+        MDLabel:
+            text: "FINAL MATH SCORE"
+            font_name: 'BPoppins'
+            font_size: '23sp'
+            halign: 'center'
+            pos_hint: {'center_x': .2, 'center_y': .85}
+            line_height: 1.1
+
+        MDLabel:
+            text: "Congratulations, You have passed this quiz"
+            font_name: 'RPoppins'
+            font_size: '15sp'
+            pos_hint: {'center_x': .56, 'center_y': .72}
+            line_height: 1.1
+
+        MDLabel:
+            text: "You scored"
+            font_name: 'RPoppins'
+            font_size: '15sp'
+            pos_hint: {'center_x': .56, 'center_y': .65}
+            line_height: 1.1
+
+        MDLabel:
+            id: correct
+            text: "8 out of 10"
+            font_name: 'MPoppins'
+            font_size: '15sp'
+            theme_text_color: "Custom"
+            text_color: hex_color('#00a18d')
+            pos_hint: {'center_x': .68, 'center_y': .65}
+            line_height: 1.1
+
+        MDLabel:
+            id: wrong
+            size_hint: .08, .12
+            pos_hint: {'center_x': .12, 'center_y': .45}
+            canvas.before:
+                Color:
+                    rgb: hex_color('#00a18d')
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.x, self.y + 5
+                    radius: [10]
+            MDIcon:
+                icon: "check"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                font_size: "30sp"
+                pos: self.parent.x + 17.5, self.parent.y - 15
+
+            MDLabel:
+                id: correct_text
+                text: "8 Correct"
+                font_name: "RPoppins"
+                font_size: "15sp"
+                pos: self.parent.x + 90, self.parent.y - 15
+
+        MDLabel:
+            size_hint: .08, .12
+            pos_hint: {'center_x': .12, 'center_y': .28}
+            canvas.before:
+                Color:
+                    rgb: 1, 0, 0, 1
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.x, self.y + 5
+                    radius: [10]
+            MDIcon:
+                icon: "window-close"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                font_size: "30sp"
+                pos: self.parent.x + 17.5, self.parent.y - 15
+
+            MDLabel:
+                id: wrong
+                text: "2 Wrong"
+                font_name: "RPoppins"
+                font_size: "15sp"
+                pos: self.parent.x + 90, self.parent.y - 15
+
+        CircularProgressBar:
+            id: percentage_score
+            size_hint: None, None
+            size: 160, 160
+            pos_hint: {"center_x": .67, "center_y": .45}
+            value: 2
+
+        MDRoundFlatButton:
+            text: "Quit"
+            font_name: "RPoppins"
+            font_size: '15sp'
+            text_color: 0, 0, 0, .7
+            size_hint: .31, .09
+            line_color : 0, 0, 0, .7
+            pos_hint: {'center_x': .34, 'center_y': .13}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'subject-list'
+
+        MDFillRoundFlatButton:
+            text: "Start Again"
+            font_name: "RPoppins"
+            font_size: '15sp'
+            size_hint: .31, .09
+            md_bg_color : hex_color("#00a18d")
+            pos_hint: {'center_x': .66, 'center_y': .13}
+            on_release:
+                root.manager.transition.direction = 'right'
+                app.root.get_screen('quiz').replay()

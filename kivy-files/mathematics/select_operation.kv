@@ -1,0 +1,85 @@
+#:import hex_color kivy.utils.get_color_from_hex
+
+<OperationButton>:
+    font_name: "RPoppins"
+    font_size: "80sp"
+    theme_style: "Custom"
+    color: 0, 0, 0, .78
+    background_color: 1, 1, 1, 0
+    elevation: 10
+    on_release:
+        root.parent.parent.parent.manager.transition.direction = "left"
+        app.root.get_screen('quiz').select_sign(self.text)
+    canvas.before:
+        Color:
+            rgb: root.bg_color
+        RoundedRectangle:
+            pos: self.x, self.y + 5
+            size: self.size
+            radius: [10]
+    MDLabel:
+        pos: self.parent.x + 30, self.parent.y - 60
+        text: self.parent.description
+        font_name: "RPoppins"
+        font_size: "15sp"
+
+
+<SelectOperationScreen>:
+    name: "select_operation"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDLabel:
+            text: "SELECT OPERATION"
+            font_name: 'BPoppins'
+            font_size: '23sp'
+            halign: 'center'
+            pos_hint: {'center_x': .5, 'center_y': .85}
+            color: 0, 0, 0, .7
+            line_height: 1.1
+
+        MDLabel:
+            text: "Choose an operation to start practicing"
+            font_name: 'RPoppins'
+            font_size: '15sp'
+            halign: 'center'
+            pos_hint: {'center_x': .5, 'center_y': .77}
+            color: 0, 0, 0, .7
+            line_height: 1.1
+
+        MDGridLayout:
+            rows: 1
+            size_hint: .9, 1
+            pos_hint: {"center_x": .5, 'center_y': .45}
+            height: self.minimum_height
+            row_default_height: 170
+            size_hint_y: None
+            padding: [20, 40, 20, 40]
+            spacing: 20
+            OperationButton:
+                text: "+"
+                description: "Addition"
+                bg_color: hex_color("#ff9f52")
+            OperationButton:
+                text: "×"
+                description: "Multiplication"
+                bg_color: hex_color("#efc058")
+            OperationButton:
+                text: "–"
+                description: "Subtraction"
+                bg_color: hex_color("#00a18d")
+            OperationButton:
+                text: "÷"
+                description: "Division"
+                bg_color: hex_color("#f66747")
+
+        MDFillRoundFlatButton:
+            text: "Back"
+            font_name: "RPoppins"
+            font_size: '15sp'
+            size_hint: .31, .09
+            md_bg_color : hex_color("#00a18d")
+            pos_hint: {'center_x': .5, 'center_y': .13}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'Mathematics'
