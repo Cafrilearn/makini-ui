@@ -11,7 +11,7 @@ __pycache__/
 venv/
 
 # Testing
-test_file.py
+test.py
 marker.txt
 
 # Distribution / packaging
