@@ -20,15 +20,20 @@ class MakiniApp(MDApp):
 
     def build(self):
         self.screen_manager.add_widget(SubjectListScreen())
+
+        # Mathematics
         self.screen_manager.add_widget(MathStartScreen())
         self.screen_manager.add_widget(SelectOperationScreen())
         self.screen_manager.add_widget(QuizScreen())
         self.screen_manager.add_widget(FinalScoreScreen())
 
+        # Science
         self.screen_manager.add_widget(ScienceStartScreen())
 
+        # Financial Literacy
         self.screen_manager.add_widget(FinancialLiteracyStartScreen())
 
+        # Conservation
         self.screen_manager.add_widget(ConservationStartScreen())
         return self.screen_manager
 
