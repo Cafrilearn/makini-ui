@@ -1,0 +1,154 @@
+#:import hex_color kivy.utils.get_color_from_hex
+#:import ScrollEffect  kivy.effects.scroll.ScrollEffect
+
+<LabelCard>:
+    padding: 6
+    md_bg_color: .1, .1, .1, .06
+    line_color: 0.2, 0.2, 0.2, 0.3
+    style: "outlined"
+    radius: [5]
+    elevation: 0
+    size_hint_x: None
+    size_hint_y: None
+    width: self.minimum_width
+    height: self.minimum_height
+
+    MDLabel:
+        id: label
+        text: root.label_text
+        font_size: "10sp"
+        font_name: "RPoppins"
+        adaptive_size: True
+        pos_hint: {'center_y': .5, "center_x": .5}
+
+
+<SubTopicCard>:
+    radius: 12
+    orientation: 'vertical'
+    elevation: 5
+    padding: [10, 10, 10, 10]
+    height: self.minimum_height
+    on_release:
+        root.parent.parent.parent.parent.parent.manager.transition.direction = 'left'
+        app.root.get_screen('ScienceContentScreen').display_content(self, root.subtopic_title)
+
+    LabelCard:
+        label_text: "Subtopic 1"
+
+    MDLabel:
+        text: root.completion
+        font_name: "RPoppins"
+        font_size: "10sp"
+        color: 0, 0, 0, .5
+
+    MDBoxLayout:
+        MDProgressBar:
+            value: root.progress
+            color: hex_color("#00a18d")
+        MDLabel:
+            spacing: "10sp"
+            size_hint: .2, 1
+            text: "  " + str(root.progress) + "%"
+            font_name: "MPoppins"
+            font_size: "10sp"
+
+    MDLabel:
+        text: root.subtopic_title
+        font_size: "17sp"
+        font_name: "BPoppins"
+
+    MDLabel:
+        text: root.subtopic_description
+        adaptive_height: True
+        font_name: "RPoppins"
+        font_size: "11sp"
+
+    MDSeparator:
+        color: 0.5, 0.5, 0.5, .2
+
+    MDBoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height + 10
+
+        MDFlatButton:
+            text: "Explore"
+            font_name: "RPoppins"
+            font_size: '10sp'
+            size_hint_x: .95
+            text_color: 0, 0, 0, .7
+            line_width: 5
+            line_color : 0, 0, 0, .9
+            radius: "10dp"
+            pos_hint: {'center_y': .5, 'center_x': .5}
+
+
+<ScienceSubTopicScreen>:
+    name: "ScienceSubTopicScreen"
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFloatLayout:
+            md_bg_color: hex_color("#00a18d")
+            size_hint_y: .4
+
+            MDRectangleFlatIconButton:
+                icon: "keyboard-backspace"
+                pos_hint: {"center_x": .1, "center_y": .8}
+                theme_text_color: "Custom"
+                line_color: hex_color("#00a18d")
+                font_name: "MPoppins"
+                theme_icon_color: "Custom"
+                icon_color: 1, 1, 1, 1
+                on_release:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'ScienceUnitListScreen'
+
+            MDLabel:
+                id: welcome_title
+                text: "Unit 1: Risus a Congrue"
+                font_name: 'BPoppins'
+                font_size: '23sp'
+                pos_hint: {'center_x': .6, 'center_y': .8}
+                color: 1, 1, 1, 1
+                line_height: 1.1
+
+            MDLabel:
+                id: welcome_description
+                text: "Welcome to the Science Lab. We are going to learn about the science of doing, explore different scientific concepts and learn new things."
+                font_name: 'RPoppins'
+                font_size: '15sp'
+                pos_hint: {'center_x': .30, 'center_y': .42}
+                size_hint: .45, None
+                color: 1, 1, 1, 1
+                line_height: 1.1
+
+            Image:
+                id: welcome_image
+                source: "assets/images/science/science lab.png"
+                pos_hint: {"center_x": .8, "center_y": .5}
+                allow_stretch: True
+                pos_hint: {"center_x": .8, "center_y": .5}
+                keep_ratio: True
+                size_hint: .6, .6
+
+        MDFloatLayout:
+            md_bg_color: 1, 1, 1, 1
+            size_hint_y: .6
+
+            ScrollView:
+                effect_cls: ScrollEffect
+                do_scroll_y: True
+                do_scroll_x: False
+                bar_width: 0
+
+                MDGridLayout:
+                    id: subtopic_grid
+                    height: self.minimum_height
+                    size_hint_y: None
+                    row_default_height: 250
+                    col_default_width: 160
+                    cols: 3
+                    spacing: 30, 30
+                    padding: 30, 30

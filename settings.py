@@ -8,8 +8,8 @@ from kivy.lang import Builder
 fn_path = join(os.getcwd(), 'assets', 'fonts')
 
 # Define Window size
-# Window.size = (800, 480)
-Window.fullscreen = True
+# Window.fullscreen = False
+Window.size = (800, 480)
 
 Builder.load_file("kivy-files/welcome.kv")
 Builder.load_file("kivy-files/subject-list.kv")
@@ -21,6 +21,10 @@ Builder.load_file('kivy-files/mathematics/final_score.kv')
 Builder.load_file("kivy-files/mathematics/progressbar.kv")
 
 Builder.load_file("kivy-files/science/start.kv")
+Builder.load_file("kivy-files/science/unit-list.kv")
+Builder.load_file("kivy-files/science/sub-topics.kv")
+Builder.load_file("kivy-files/science/sub-topic-detail.kv")
+Builder.load_file("kivy-files/science/content.kv")
 
 Builder.load_file("kivy-files/financial literacy/start.kv")
 

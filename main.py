@@ -1,6 +1,7 @@
 from kivy.core.text import LabelBase
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
+from kivy import Config
 
 from kivy.uix.screenmanager import SlideTransition
 
@@ -29,6 +30,10 @@ class MakiniApp(MDApp):
 
         # Science
         self.screen_manager.add_widget(ScienceStartScreen())
+        self.screen_manager.add_widget(ScienceUnitListScreen())
+        self.screen_manager.add_widget(ScienceSubTopicScreen())
+        self.screen_manager.add_widget(ScienceContentScreen())
+        # self.screen_manager.add_widget(ScienceSubTopicDetailScreen())
 
         # Financial Literacy
         self.screen_manager.add_widget(FinancialLiteracyStartScreen())
@@ -43,6 +48,11 @@ class MakiniApp(MDApp):
 
 
 if __name__ == "__main__":
+    # Config.set('graphics', 'fullscreen', 0)
+    # Config.set('graphics', 'window_state', 'visible')
+    # Config.write()
+    Config.set('kivy', 'keyboard_mode', 'systemandmulti')
+
     LabelBase.register(
         name="MPoppins",
         fn_regular=os.path.join(fn_path, "Poppins-Medium.ttf"),
@@ -56,4 +66,3 @@ if __name__ == "__main__":
         fn_regular=os.path.join(fn_path, 'Poppins-Regular.ttf'),
     )
     MakiniApp().run()
-

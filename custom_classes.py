@@ -1,15 +1,27 @@
+import math
 import random
+from threading import Thread
+from time import sleep
 
+import pygame.event
 from kivy.clock import Clock
+from kivy.core.audio import SoundLoader
 from kivy.properties import StringProperty, ListProperty, NumericProperty
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
+from kivy.uix.scrollview import ScrollView
+from kivy.utils import get_color_from_hex as hex_color
 from kivy.utils import rgba, get_color_from_hex
 from kivymd.uix.behaviors import RoundedRectangularElevationBehavior, FakeRectangularElevationBehavior
+from kivymd.uix.button import MDFlatButton
 from kivymd.uix.card import MDCard
 from kivymd.uix.floatlayout import MDFloatLayout
+from mutagen.mp3 import MP3
+from pygame import mixer
 
+from db import db
 
 class WelcomeScreen(Screen):
     def current_slide(self, index):
@@ -27,7 +39,21 @@ class WelcomeScreen(Screen):
 
 
 class SubjectListScreen(Screen):
-    pass
+    """ Implements the subject list screen """
+    def __init__(self, **kwargs):
+        super(SubjectListScreen, self).__init__(**kwargs)
+        Clock.schedule_once(self.list_subjects, 0)
+
+    def list_subjects(self, *args):
+        for subject in db:
+            self.ids.subject_list.add_widget(
+                Card(
+                    background_color=hex_color(db[subject]["bg_color"]),
+                    image_source=db[subject]['image'],
+                    title_text=subject.title(),
+                    description=db[subject]['description']
+                )
+            )
 
 
 class SearchBar(FakeRectangularElevationBehavior, MDFloatLayout):
@@ -39,6 +65,20 @@ class Card(MDCard):
     title_text = StringProperty()
     description = StringProperty()
     background_color = ListProperty([1, 1, 1, 1])
+
+
+class UnitCard(MDCard):
+    subject = StringProperty()
+    unit = StringProperty()
+    unit_description = StringProperty()
+
+
+class SubTopicCard(MDCard):
+    subtopic_title = StringProperty()
+    subject = StringProperty()
+    completion = StringProperty()
+    progress = NumericProperty()
+    subtopic_description = StringProperty()
 
 
 class SubjectCard(MDCard):
@@ -171,13 +211,17 @@ class QuizScreen(Screen):
             final_score_screen.correct.text = f"{self.correct} out of {self.correct + self.wrong}"
             final_score_screen.wrong.text = f"{self.wrong} Wrong"
             final_score_screen.ids.correct_text.text = f"{self.correct} Correct"
-            final_score_screen.ids.percentage_score.score = percentage_score
 
+            final_score_screen.ids.circular_progress_bar.clear_widgets()
+
+            final_score_screen.ids.circular_progress_bar.add_widget(
+                CircularProgressBar(
+                    score=percentage_score,
+                    text=str(percentage_score)+"%",
+                    set_value=percentage_score
+                )
+            )
             self.manager.current = 'final_score'
-
-
-class FinalScoreScreen(Screen):
-    """ Implements the final score screen """
 
 
 class CircularProgressBar(AnchorLayout):
@@ -185,7 +229,7 @@ class CircularProgressBar(AnchorLayout):
     score = NumericProperty(80)
     bar_width = NumericProperty(10)
     set_value = NumericProperty(80)
-    text = StringProperty("80%")
+    text = StringProperty("100%")
     duration = NumericProperty(1.5)
     counter = 0
 
@@ -197,14 +241,16 @@ class CircularProgressBar(AnchorLayout):
         Clock.schedule_interval(self.percentage_counter, self.duration/self.score)
 
     def percentage_counter(self, *args):
-        print("Called")
         if self.counter < self.score:
-            print("running")
             self.counter += 1
             self.text = f"{self.counter}%"
             self.set_value = self.counter
         else:
             Clock.unschedule(self.percentage_counter)
+
+
+class FinalScoreScreen(Screen):
+    """ Implements the final score screen """
 
 
 class ScienceStartScreen(Screen):
@@ -217,3 +263,230 @@ class FinancialLiteracyStartScreen(Screen):
 
 class ConservationStartScreen(Screen):
     """ Implements the Conservation start screen """
+
+
+class ScienceUnitListScreen(Screen):
+    """ Implements the Science Unit List screen """
+
+    def __init__(self, **kwargs):
+        super(ScienceUnitListScreen, self).__init__(**kwargs)
+        self.subject_title = StringProperty()
+
+    def list_units(self, subject):
+        subject = subject.lower()
+
+        if subject == "mathematics":
+            self.manager.transition = SlideTransition()
+            self.manager.current = "Mathematics"
+        else:
+            self.subject_title = StringProperty(subject)
+            self.ids.subject_title.text = subject.upper()
+            self.ids.welcome_message.text = db[subject]['description']
+            self.ids.welcome_image.source = db[subject]['image']
+            self.ids.unit_list.clear_widgets()
+            self.manager.current = 'ScienceUnitListScreen'
+
+            for i in range(3, len(db[subject])):
+                self.ids.unit_list.add_widget(
+                    UnitCard(
+                        unit=list(db[subject].keys())[i].title(),
+                        unit_description=db[subject][list(db[subject].keys())[i]]['description'],
+                    )
+                )
+
+
+class ScienceSubTopicScreen(Screen):
+    """ Implements the Science Sub Topic Screen """
+    completion = StringProperty('50% remaining')
+    progress = NumericProperty(50)
+
+    def __init__(self, **kwargs):
+        super(ScienceSubTopicScreen, self).__init__(**kwargs)
+
+    def selected_unit(self, instance, unit):
+        self.ids.subtopic_grid.clear_widgets()
+
+        subject = instance.parent.parent.parent.parent.parent.ids.subject_title.text.lower()
+        unit = unit.lower()
+
+        subtopics_dict = db[subject][unit]
+        subtopics_keys = list(db[subject][unit].keys())[1:]
+
+        for subtopic in subtopics_keys:
+            self.ids.subtopic_grid.add_widget(
+                SubTopicCard(
+                    completion=self.completion.upper(),
+                    progress=self.progress,
+                    subject=subject,
+                    subtopic_title=subtopic.title(),
+                    subtopic_description=subtopics_dict['description']
+                )
+            )
+
+        self.ids.welcome_title.text = unit.upper()
+        self.ids.welcome_description.text = db[subject][unit]['description']
+        self.ids.welcome_image.source = db[subject]['image']
+
+        self.manager.current = "ScienceSubTopicScreen"
+
+
+class LabelCard(MDCard):
+    label_text = StringProperty()
+
+
+class Content(MDFloatLayout):
+    """ Implements the content of the Science Sub Topic Detail screen """
+
+
+class ScienceContentScreen(Screen):
+    """ Implements the Science Content screen """
+    def __init__(self, **kwargs):
+        super(ScienceContentScreen, self).__init__(**kwargs)
+        self.subject = None
+        self.unit = None
+        self.subtopic = None
+        self.subtopic_content = None
+        self.headings = None
+
+        self.song = None
+        self.played = False
+        mixer.init()
+        self.t = Thread(target=self.check_music_pos, args=(self.song,))
+        self.t.daemon = True
+
+    def go_back(self, *args):
+        self.manager.transition = SlideTransition(direction='right')
+        self.manager.current = 'ScienceSubTopicScreen'
+        self.stop_music()
+
+    def display_content(self, instance, subtopic):
+        self.ids.sections_grid.clear_widgets()
+        self.ids.content_detail.clear_widgets()
+
+        self.subject = instance.subject
+        self.unit = instance.parent.parent.parent.parent.parent.ids.welcome_title.text.lower()
+        self.subtopic = subtopic.lower()
+        self.subtopic_content = db[self.subject][self.unit][self.subtopic]
+
+        self.headings = list(self.subtopic_content['content'].keys())
+
+        for i in range(len(self.headings)):
+            self.ids.sections_grid.add_widget(
+                NavigationButton(
+                    text=self.headings[i].title(),
+                )
+            )
+
+        self.ids.sections_grid.add_widget(
+            NavigationButton(
+                text=f"Back to SubTopics",
+                line_color=hex_color("#00a18d"),
+                text_color=hex_color("#00a18d"),
+            )
+        )
+
+        self.ids.content_detail.add_widget(
+            ContentDetail(
+                heading=self.headings[0].upper(),
+                content=self.subtopic_content['content'][self.headings[0]]['content'],
+                image=self.subtopic_content['content'][self.headings[0]]['image']
+            )
+        )
+
+        self.manager.transition = SlideTransition()
+        self.manager.current = "ScienceContentScreen"
+
+    def seek_content(self, heading):
+        heading = heading.lower()
+        self.ids.content_detail.clear_widgets()
+        self.stop_music()
+        self.ids.content_detail.add_widget(
+            ContentDetail(
+                heading=heading.upper(),
+                content=self.subtopic_content['content'][heading]['content'],
+            )
+        )
+
+    def check_music_pos(self, song,  *args):
+        song_length = math.floor(self.song.get_length())
+
+        while True:
+            current = math.floor(pygame.mixer.music.get_pos()/1000)
+            percentage = current/song_length*100
+            self.ids.audio_progress_bar.value = percentage
+
+            if abs(current - song_length) <= 2:
+                print("Song ended")
+                self.played = False
+                self.ids.audio_progress_bar.value = 100
+                self.ids.play_pause_replay_button.icon = "replay"
+                break
+            else:
+                sleep(.2)
+
+    def stop_music(self):
+        self.ids.play_pause_replay_button.icon = "play-circle-outline"
+        self.t = Thread(target=self.check_music_pos, args=(self.song,))
+        self.song = None
+        self.played = False
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
+
+    def audio_controller(self):
+        option = self.ids.play_pause_replay_button.icon
+
+        if option == "replay":
+            print("repaying...")
+            mixer.music.play()
+            if self.t.is_alive():
+                print("Thread is alive")
+            else:
+                self.t = Thread(target=self.check_music_pos, args=(self.song,))
+                self.t.daemon = True
+                self.t.start()
+            self.played = True
+            self.ids.play_pause_replay_button.icon = "pause-circle-outline"
+
+        elif option == "play-circle-outline" and self.played:
+            mixer.music.unpause()
+            self.ids.play_pause_replay_button.icon = "pause-circle-outline"
+
+        elif option == "play-circle-outline" and not self.played:
+            mixer.music.load('assets/audio/audio.mp3')
+            self.song = mixer.Sound('assets/audio/audio.mp3')
+            mixer.music.set_volume(0.1)
+            self.t.start()
+            mixer.music.play()
+            self.ids.play_pause_replay_button.icon = "pause-circle-outline"
+            self.played = True
+
+        elif option == "pause-circle-outline":
+            mixer.music.pause()
+            self.ids.play_pause_replay_button.icon = "play-circle-outline"
+
+    def on_leave(self):
+        self.stop_music()
+
+
+class NavigationButton(MDFlatButton):
+    """ Implements the Navigation Button """
+    text = StringProperty()
+    subtopic = StringProperty()
+    line_color = ListProperty([0, 0, 0, .9])
+    text_color = ListProperty([0, 0, 0, .7])
+
+    def on_release(self):
+        if 'back' in self.text.lower():
+            self.parent.parent.parent.parent.parent.go_back()
+        else:
+            self.parent.parent.parent.parent.parent.seek_content(self.text)
+
+
+class ContentDetail(BoxLayout):
+    heading = StringProperty("4. Cells in mammals")
+    image = StringProperty("assets/images/science/science lab.png")
+    content = StringProperty()
+
+
+class ScrollableLabel(ScrollView):
+    text = StringProperty("")

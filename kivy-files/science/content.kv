@@ -1,0 +1,125 @@
+#:import hex_color kivy.utils.get_color_from_hex
+
+<NavigationButton>:
+    font_name: "RPoppins"
+    font_size: '10sp'
+    size_hint_x: .5
+    theme_text_color: "Custom"
+    radius: "5dp"
+    pos_hint: {'center_y': .5, 'center_x': .5}
+
+<ContentDetail>:
+    orientation: "vertical"
+    spacing: dp(20)
+    adaptive_height: True
+    size_hint_y: None
+    height: self.minimum_height
+    padding: [dp(20), dp(40), dp(20), dp(20)]
+
+    MDLabel:
+        font_name: "BPoppins"
+        font_size: '20sp'
+        text: root.heading
+
+    Image:
+        source: root.image
+        allow_stretch: True
+        keep_ratio: True
+        pos_hint: {'center_x': .5}
+        size_hint_y: 1
+        size_hint_x: 1
+        width: 200
+        height: 200
+
+    MDLabel:
+        font_name: "RPoppins"
+        adaptive_height: True
+        font_size: '12sp'
+        text: root.content
+
+<ScienceContentScreen>:
+    name: "ScienceContentScreen"
+
+    MDBoxLayout:
+        orientation: "horizontal"
+
+        MDFloatLayout:
+            md_bg_color: .98, .98, .98, 1
+            size_hint_x: .25
+
+            ScrollView:
+                effect_cls: ScrollEffect
+                do_scroll_y: True
+                do_scroll_x: False
+                bar_width: 2
+                bar_color: hex_color("#00a18d")
+
+                MDGridLayout:
+                    id: sections_grid
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(15)
+                    spacing: dp(15)
+
+        MDFloatLayout:
+            md_bg_color: 1, 1, 1, 1
+            size_hint_x: .75
+
+            MDBoxLayout:
+                orientation: "vertical"
+                size_hint_y: .87
+                pos_hint: {'top': 1, 'right': 1}
+
+                ScrollView:
+                    id: content_detail
+                    effect_cls: ScrollEffect
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    bar_width: 0
+
+            MDBoxLayout:
+                orientation: "horizontal"
+                size_hint_y: .1
+                md_bg_color: 1, 1, 1, 1
+                pos_hint: {'bottom': 1, 'right': 1}
+
+                MDFloatLayout:
+                    id: audio_player
+
+                    MDProgressBar:
+                        id: audio_progress_bar
+                        size_hint_x: .8
+                        pos_hint: {'center_x': .5, 'center_y': 1.2}
+                        value: 0
+                        color: hex_color("#00a18d")
+                        orientation: "horizontal"
+                        max: 100
+                        keep_within_parent: True
+
+                    MDRoundFlatButton:
+                        text: "Back"
+                        font_name: "RPoppins"
+                        font_size: '10sp'
+                        text_color: 0, 0, 0, .7
+                        size_hint: .1, .7
+                        line_color : 0, 0, 0, .7
+                        pos_hint: {'center_x': .2, 'center_y': .6}
+
+                    MDIconButton:
+                        id: play_pause_replay_button
+                        icon: "play-circle-outline"
+                        theme_text_color: "Custom"
+                        text_color: hex_color("#00a18d")
+                        pos_hint: {'center_x': .5, 'center_y': .6}
+                        on_release: root.audio_controller()
+
+                    MDFillRoundFlatButton:
+                        text: "Next"
+                        font_name: "RPoppins"
+                        font_size: '10sp'
+                        size_hint: .1, .7
+                        line_color: 1, 1, 1, 1
+                        radius: "10dp"
+                        md_bg_color : hex_color("#00a18d")
+                        pos_hint: {'center_x': .8, 'center_y': .6}

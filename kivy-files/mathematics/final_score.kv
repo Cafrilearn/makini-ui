@@ -5,7 +5,7 @@
 <FinalScoreScreen>:
     correct: correct
     wrong: wrong
-    percentage_score: percentage_score
+    circular_progress_bar: circular_progress_bar
 
     name: "final_score"
     MDFloatLayout:
@@ -99,12 +99,12 @@
                 font_size: "15sp"
                 pos: self.parent.x + 90, self.parent.y - 15
 
-        CircularProgressBar:
-            id: percentage_score
+        AnchorLayout:
+            id: circular_progress_bar
             size_hint: None, None
             size: 160, 160
             pos_hint: {"center_x": .67, "center_y": .45}
-            value: 2
+
 
         MDRoundFlatButton:
             text: "Quit"

@@ -1,0 +1,107 @@
+
+<Content>:
+    adaptive_height: True
+
+    MDFloatLayout:
+        md_bg_color: .99, .99, .99, 1
+
+        MDSeparator:
+            size_hint_y: None
+            height: dp(1)
+            color: .5, .5, .5, 1
+            pos_hint: {'center_x': .07, 'center_y': .5}
+            orientation: 'vertical'
+
+        Image:
+            source: "assets/images/science/science bg.png"
+            allow_stretch: True
+            pos_hint: {"center_x": .8, "center_y": .5}
+            keep_ratio: True
+            size_hint_y: None
+            size_hint_x: None
+            width: 220
+            height: 220
+
+        Image:
+            source: "assets/images/science/science bg.png"
+            allow_stretch: True
+            pos_hint: {"center_x": .2, "center_y": .78}
+            keep_ratio: True
+            size_hint_y: None
+            size_hint_x: None
+            width: 100
+            height: 100
+
+        MDFillRoundFlatButton:
+            text: "Start"
+            font_name: "RPoppins"
+            font_size: '15sp'
+            size_hint: .4, .35
+            md_bg_color : hex_color("#00a18d")
+            pos_hint: {'center_x': .7, 'center_y': .5}
+
+
+<ScienceSubTopicDetailScreen>:
+    name: "ScienceSubTopicDetailScreen"
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDFloatLayout:
+            md_bg_color: hex_color("#00a18d")
+            size_hint_y: .4
+
+            MDRectangleFlatIconButton:
+                icon: "keyboard-backspace"
+                pos_hint: {"center_x": .1, "center_y": .8}
+                theme_text_color: "Custom"
+                line_color: hex_color("#00a18d")
+                font_name: "MPoppins"
+                theme_icon_color: "Custom"
+                icon_color: 1, 1, 1, 1
+                on_release:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'ScienceUnitListScreen'
+
+            MDLabel:
+                text: "Unit 1: Risus a Congrue"
+                font_name: 'BPoppins'
+                font_size: '23sp'
+                pos_hint: {'center_x': .6, 'center_y': .8}
+                color: 1, 1, 1, 1
+                line_height: 1.1
+
+            MDLabel:
+                text: "Welcome to the Science Lab. We are going to learn about the science of doing, explore different scientific concepts and learn new things."
+                font_name: 'RPoppins'
+                font_size: '15sp'
+                pos_hint: {'center_x': .30, 'center_y': .42}
+                size_hint: .45, None
+                color: 1, 1, 1, 1
+                line_height: 1.1
+
+            Image:
+                source: "assets/images/science/science lab.png"
+                allow_stretch: True
+                pos_hint: {"center_x": .8, "center_y": .5}
+                keep_ratio: True
+                size_hint_y: None
+                size_hint_x: None
+                width: 220
+                height: 220
+
+        MDFloatLayout:
+            md_bg_color: .97, .97, .97, 1
+            size_hint_y: .6
+
+            ScrollView:
+                effect_cls: ScrollEffect
+                do_scroll_y: True
+                do_scroll_x: False
+                bar_width: 0
+
+                MDGridLayout:
+                    id: panel_detail
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
