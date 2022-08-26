@@ -451,7 +451,7 @@ class ScienceContentScreen(Screen):
             self.ids.play_pause_replay_button.icon = "pause-circle-outline"
 
         elif option == "play-circle-outline" and not self.played:
-            mixer.music.load('assets/audio/audio.mp3')
+            mixer.music.load('assets/audio/.mp3')
             self.song = mixer.Sound('assets/audio/audio.mp3')
             mixer.music.set_volume(0.1)
             self.t.start()
