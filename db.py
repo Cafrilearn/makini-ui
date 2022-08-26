@@ -4,6 +4,11 @@ Kadim Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 Humeai Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n
 """
 
+evolution_of_money = """
+People have used money for more than 4,000 years. In the 600s bce the kingdom of Lydia in what is now Turkey began to make coins. It was probably the first government to do so. These coins were a combination of silver and gold, called electrum. Many ancient peoples, including the Greeks and the Romans, also used coins.\n
+The first types of paper money were used in China more than 1,000 years ago. Early paper money was simply a written promise to pay a certain amount of gold or silver money. The paper money was valuable because it could be traded for gold or silver. Later, governments began printing paper money. In the 1900s most governments made paper money valuable on its own. It no longer stood for gold or silver.\n
+"""
+
 parts_of_heart = """
 The heart is made up of four different blood-filled areas, and each of these areas is called a chamber. There are two chambers on each side of the heart. One chamber is on the top and one chamber is on the bottom. The two chambers on top are called the atria
 If you're talking only about one, call it an atrium. The atria are the chambers that fill with the blood returning to the heart from the body and lungs. The heart has a left atrium and a right atrium.
@@ -91,13 +96,14 @@ digestive_system = {
     },
 }
 
+
 content = {
-    "wonder heading": {
-        "content": content_detail,
+    "Heading one": {
+        "content": evolution_of_money,
         "image": "assets/images/science/science lab.png",
     },
     "heading two": {
-        "content": content_detail,
+        "content": evolution_of_money,
         "image": "assets/images/science/science lab.png",
     },
     "heading three": {
@@ -121,18 +127,18 @@ db = {
         "bg_color": "#ff9f52",
 
         "first financial unit": {
-            "description": "Unit content description goes here Lorem ipsum congries mando good Unit content description goes here Lorem ipsum congries mando good",
+            "description": "Financial Literacy brought to you by Mara, a crypoto company and a financial coach.",
 
-            "first subtopic": {
-                "description": "Sub topic Content description goes here",
+            "evolution of money": {
+                "description": "How money has evolved over time in the financial world.",
                 "content": content,
             },
-            "second subtopic": {
-                "description": "Sub topic Content description goes here",
+            "importance of money": {
+                "description": "Learn why money is important and why you should care.",
                 "content": content,
             },
-            "third subtopic": {
-                "description": "Sub topic Content description goes here",
+            "budgeting": {
+                "description": "For better financial growth, budgeting is a key skill",
                 "content": content,
             },
         },

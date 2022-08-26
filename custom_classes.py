@@ -5,12 +5,11 @@ from time import sleep
 
 import pygame.event
 from kivy.clock import Clock
-from kivy.core.audio import SoundLoader
 from kivy.properties import StringProperty, ListProperty, NumericProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.uix.screenmanager import Screen, SlideTransition, ScreenManager
+from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.scrollview import ScrollView
 from kivy.utils import get_color_from_hex as hex_color
 from kivy.utils import rgba, get_color_from_hex
@@ -18,10 +17,10 @@ from kivymd.uix.behaviors import RoundedRectangularElevationBehavior, FakeRectan
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.card import MDCard
 from kivymd.uix.floatlayout import MDFloatLayout
-from mutagen.mp3 import MP3
 from pygame import mixer
 
 from db import db
+
 
 class WelcomeScreen(Screen):
     def current_slide(self, index):
