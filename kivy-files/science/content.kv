@@ -37,6 +37,14 @@
         font_size: '12sp'
         text: root.content
 
+<AudioControllerButton>:
+    icon: "play-circle"
+    theme_text_color: "Custom"
+    text_color: hex_color("#00a18d")
+    user_font_size: "50sp"
+    name: "play"
+    pos_hint: {'center_x': .5, 'center_y': .4}
+
 <ScienceContentScreen>:
     name: "ScienceContentScreen"
 
@@ -80,7 +88,7 @@
 
             MDBoxLayout:
                 orientation: "horizontal"
-                size_hint_y: .1
+                size_hint_y: .15
                 md_bg_color: 1, 1, 1, 1
                 pos_hint: {'bottom': 1, 'right': 1}
 
@@ -90,43 +98,56 @@
                     MDProgressBar:
                         id: audio_progress_bar
                         size_hint_x: .8
-                        pos_hint: {'center_x': .5, 'center_y': 1.2}
+                        pos_hint: {'center_x': .5, 'center_y': .9}
                         value: 0
                         color: hex_color("#00a18d")
                         orientation: "horizontal"
                         max: 100
                         keep_within_parent: True
 
-#                    MDRoundFlatButton:
-#                        text: "Back"
-#                        font_name: "RPoppins"
-#                        font_size: '10sp'
-#                        text_color: 0, 0, 0, .7
-#                        size_hint: .1, .7
-#                        line_color : 0, 0, 0, .7
-#                        pos_hint: {'center_x': .2, 'center_y': .6}
+                    MDLabel:
+                        id: current_time
+                        text: "00:00"
+                        font_name: "RPoppins"
+                        font_size: '10sp'
+                        text_color: 0, 0, 0, .7
+                        adaptive_size: True
+                        pos_hint: {'center_x': .13, 'center_y': .7}
+
+                    MDLabel:
+                        id: audio_length
+                        text: "03:23"
+                        font_name: "RPoppins"
+                        font_size: '10sp'
+                        text_color: 0, 0, 0, .7
+                        adaptive_height: True
+                        pos_hint: {'center_x': 1.35, 'center_y': .7}
 
                     MDIconButton:
-                        id: play_pause_replay_button
-                        icon: "play-circle-outline"
+                        name: "rewind"
+                        icon: "skip-previous"
+                        user_font_size: "25sp"
                         theme_text_color: "Custom"
                         text_color: hex_color("#00a18d")
-                        pos_hint: {'center_x': .5, 'center_y': .6}
-                        on_release: root.audio_controller()
+                        pos_hint: {'center_x': .4, 'center_y': .4}
+                        on_release: print(self.icon)
+
+                    AudioControllerButton:
+                        id: play_pause_replay_button
+                        on_press: root.audio_controller()
+
+                    MDIconButton:
+                        name: "skip-next"
+                        icon: "skip-next"
+                        user_font_size: "25sp"
+                        theme_text_color: "Custom"
+                        text_color: hex_color("#00a18d")
+                        pos_hint: {'center_x': .6, 'center_y': .4}
 
                     MDIconButton:
                         id: volume_button
                         icon: "volume-high"
+                        user_font_size: "25sp"
                         theme_text_color: "Custom"
                         text_color: hex_color("#00a18d")
-                        pos_hint: {'center_x': .8, 'center_y': .6}
-
-#                    MDFillRoundFlatButton:
-#                        text: "Next"
-#                        font_name: "RPoppins"
-#                        font_size: '10sp'
-#                        size_hint: .1, .7
-#                        line_color: 1, 1, 1, 1
-#                        radius: "10dp"
-#                        md_bg_color : hex_color("#00a18d")
-#                        pos_hint: {'center_x': .8, 'center_y': .6}
+                        pos_hint: {'center_x': .8, 'center_y': .4}

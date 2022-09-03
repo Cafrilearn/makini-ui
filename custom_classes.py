@@ -14,7 +14,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.utils import get_color_from_hex as hex_color
 from kivy.utils import rgba, get_color_from_hex
 from kivymd.uix.behaviors import RoundedRectangularElevationBehavior, FakeRectangularElevationBehavior
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDFlatButton, MDIconButton
 from kivymd.uix.card import MDCard
 from kivymd.uix.floatlayout import MDFloatLayout
 from pygame import mixer
@@ -414,17 +414,19 @@ class ScienceContentScreen(Screen):
             current = pygame.mixer.music.get_pos()/1000
             percentage = (current/self.song_length)*100
             self.ids.audio_progress_bar.value = percentage
+            self.ids.current_time.text = str(round(current/60, 2))
 
-            if abs(current - self.song_length) <= 1:
+            if abs(current - self.song_length) <= .5:
                 self.played = False
                 self.ids.audio_progress_bar.value = 100
                 self.ids.play_pause_replay_button.icon = "replay"
+                self.ids.play_pause_replay_button.name = "replay"
                 break
             else:
                 sleep(.1)
 
     def stop_music(self):
-        self.ids.play_pause_replay_button.icon = "play-circle-outline"
+        self.ids.play_pause_replay_button.icon = "play-circle"
         self.played = False
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
@@ -432,13 +434,14 @@ class ScienceContentScreen(Screen):
     def load_music(self, heading):
         self.song = mixer.Sound(self.subtopic_content['content'][heading]['audio'])
         self.song_length = self.song.get_length()
+        self.ids.audio_length.text = str(round(self.song_length/60, 2))
         mixer.music.load(self.subtopic_content['content'][heading]['audio'])
         self.t = Thread(target=self.check_music_pos, args=(self.song,))
         self.t.daemon = True
         mixer.music.set_volume(0.5)
 
     def audio_controller(self):
-        option = self.ids.play_pause_replay_button.icon
+        option = self.ids.play_pause_replay_button.name
 
         if option == "replay":
             mixer.music.play()
@@ -449,24 +452,33 @@ class ScienceContentScreen(Screen):
                 self.t.daemon = True
                 self.t.start()
             self.played = True
-            self.ids.play_pause_replay_button.icon = "pause-circle-outline"
+            self.ids.play_pause_replay_button.icon = "pause-circle"
+            self.ids.play_pause_replay_button.name = "pause"
 
-        elif option == "play-circle-outline" and self.played:
+        elif option == "play" and self.played:
             mixer.music.unpause()
-            self.ids.play_pause_replay_button.icon = "pause-circle-outline"
+            self.ids.play_pause_replay_button.icon = "pause-circle"
+            self.ids.play_pause_replay_button.name = "pause"
 
-        elif option == "play-circle-outline" and not self.played:
+        elif option == "play" and not self.played:
             self.t.start()
             mixer.music.play()
-            self.ids.play_pause_replay_button.icon = "pause-circle-outline"
+            self.ids.play_pause_replay_button.icon = "pause-circle"
+            self.ids.play_pause_replay_button.name = "pause"
             self.played = True
 
-        elif option == "pause-circle-outline":
+        elif option == "pause":
             mixer.music.pause()
-            self.ids.play_pause_replay_button.icon = "play-circle-outline"
+            self.ids.play_pause_replay_button.icon = "play-circle"
+            self.ids.play_pause_replay_button.name = "play"
 
     def on_leave(self):
         self.stop_music()
+
+
+class AudioControllerButton(MDIconButton):
+    """ implements the audio controller button """
+    name = StringProperty()
 
 
 class NavigationButton(MDFlatButton):
@@ -491,3 +503,7 @@ class ContentDetail(BoxLayout):
 
 class ScrollableLabel(ScrollView):
     text = StringProperty("")
+
+
+class ConversationScreen(Screen):
+    """ Implements the conversation screen """

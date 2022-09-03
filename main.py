@@ -38,6 +38,9 @@ class MakiniApp(MDApp):
         # Financial Literacy
         self.screen_manager.add_widget(FinancialLiteracyStartScreen())
 
+        # Conversation
+        self.screen_manager.add_widget(ConversationScreen())
+
         # Conservation
         self.screen_manager.add_widget(ConservationStartScreen())
         return self.screen_manager

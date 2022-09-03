@@ -68,9 +68,8 @@
         theme_text_color: "Custom"
         text_color: .5, .5, .5, 1
         on_release:
-            print("Start makini engine..")
-            print("Initializing speech to text engine..")
-            print("Listening..")
+            app.root.transition.direction = 'left'
+            app.root.current = 'ConversationScreen'
 
 
 <SubjectListScreen>:

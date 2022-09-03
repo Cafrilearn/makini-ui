@@ -29,3 +29,5 @@ Builder.load_file("kivy-files/science/content.kv")
 Builder.load_file("kivy-files/financial literacy/start.kv")
 
 Builder.load_file("kivy-files/conservation/start.kv")
+
+Builder.load_file("kivy-files/conversation.kv")
