@@ -97,14 +97,14 @@
                         max: 100
                         keep_within_parent: True
 
-                    MDRoundFlatButton:
-                        text: "Back"
-                        font_name: "RPoppins"
-                        font_size: '10sp'
-                        text_color: 0, 0, 0, .7
-                        size_hint: .1, .7
-                        line_color : 0, 0, 0, .7
-                        pos_hint: {'center_x': .2, 'center_y': .6}
+#                    MDRoundFlatButton:
+#                        text: "Back"
+#                        font_name: "RPoppins"
+#                        font_size: '10sp'
+#                        text_color: 0, 0, 0, .7
+#                        size_hint: .1, .7
+#                        line_color : 0, 0, 0, .7
+#                        pos_hint: {'center_x': .2, 'center_y': .6}
 
                     MDIconButton:
                         id: play_pause_replay_button
@@ -114,12 +114,19 @@
                         pos_hint: {'center_x': .5, 'center_y': .6}
                         on_release: root.audio_controller()
 
-                    MDFillRoundFlatButton:
-                        text: "Next"
-                        font_name: "RPoppins"
-                        font_size: '10sp'
-                        size_hint: .1, .7
-                        line_color: 1, 1, 1, 1
-                        radius: "10dp"
-                        md_bg_color : hex_color("#00a18d")
+                    MDIconButton:
+                        id: volume_button
+                        icon: "volume-high"
+                        theme_text_color: "Custom"
+                        text_color: hex_color("#00a18d")
                         pos_hint: {'center_x': .8, 'center_y': .6}
+
+#                    MDFillRoundFlatButton:
+#                        text: "Next"
+#                        font_name: "RPoppins"
+#                        font_size: '10sp'
+#                        size_hint: .1, .7
+#                        line_color: 1, 1, 1, 1
+#                        radius: "10dp"
+#                        md_bg_color : hex_color("#00a18d")
+#                        pos_hint: {'center_x': .8, 'center_y': .6}

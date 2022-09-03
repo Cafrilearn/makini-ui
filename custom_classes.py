@@ -341,17 +341,17 @@ class ScienceContentScreen(Screen):
     """ Implements the Science Content screen """
     def __init__(self, **kwargs):
         super(ScienceContentScreen, self).__init__(**kwargs)
+        self.song_length = None
+        mixer.init()
+
         self.subject = None
         self.unit = None
         self.subtopic = None
         self.subtopic_content = None
         self.headings = None
-
         self.song = None
         self.played = False
-        mixer.init()
         self.t = Thread(target=self.check_music_pos, args=(self.song,))
-        self.t.daemon = True
 
     def go_back(self, *args):
         self.manager.transition = SlideTransition(direction='right')
@@ -388,9 +388,10 @@ class ScienceContentScreen(Screen):
             ContentDetail(
                 heading=self.headings[0].upper(),
                 content=self.subtopic_content['content'][self.headings[0]]['content'],
-                image=self.subtopic_content['content'][self.headings[0]]['image']
+                image=self.subtopic_content['content'][self.headings[0]]['image'],
             )
         )
+        self.load_music(self.headings[0])
 
         self.manager.transition = SlideTransition()
         self.manager.current = "ScienceContentScreen"
@@ -399,6 +400,7 @@ class ScienceContentScreen(Screen):
         heading = heading.lower()
         self.ids.content_detail.clear_widgets()
         self.stop_music()
+        self.load_music(heading)
         self.ids.content_detail.add_widget(
             ContentDetail(
                 heading=heading.upper(),
@@ -406,39 +408,42 @@ class ScienceContentScreen(Screen):
             )
         )
 
-    def check_music_pos(self, song,  *args):
-        song_length = math.floor(self.song.get_length())
+    def check_music_pos(self, song, *args):
 
         while True:
-            current = math.floor(pygame.mixer.music.get_pos()/1000)
-            percentage = current/song_length*100
+            current = pygame.mixer.music.get_pos()/1000
+            percentage = (current/self.song_length)*100
             self.ids.audio_progress_bar.value = percentage
 
-            if abs(current - song_length) <= 2:
-                print("Song ended")
+            if abs(current - self.song_length) <= 1:
                 self.played = False
                 self.ids.audio_progress_bar.value = 100
                 self.ids.play_pause_replay_button.icon = "replay"
                 break
             else:
-                sleep(.2)
+                sleep(.1)
 
     def stop_music(self):
         self.ids.play_pause_replay_button.icon = "play-circle-outline"
-        self.t = Thread(target=self.check_music_pos, args=(self.song,))
-        self.song = None
         self.played = False
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
+
+    def load_music(self, heading):
+        self.song = mixer.Sound(self.subtopic_content['content'][heading]['audio'])
+        self.song_length = self.song.get_length()
+        mixer.music.load(self.subtopic_content['content'][heading]['audio'])
+        self.t = Thread(target=self.check_music_pos, args=(self.song,))
+        self.t.daemon = True
+        mixer.music.set_volume(0.5)
 
     def audio_controller(self):
         option = self.ids.play_pause_replay_button.icon
 
         if option == "replay":
-            print("repaying...")
             mixer.music.play()
             if self.t.is_alive():
-                print("Thread is alive")
+                pass
             else:
                 self.t = Thread(target=self.check_music_pos, args=(self.song,))
                 self.t.daemon = True
@@ -451,9 +456,6 @@ class ScienceContentScreen(Screen):
             self.ids.play_pause_replay_button.icon = "pause-circle-outline"
 
         elif option == "play-circle-outline" and not self.played:
-            mixer.music.load('assets/audio/.mp3')
-            self.song = mixer.Sound('assets/audio/audio.mp3')
-            mixer.music.set_volume(0.1)
             self.t.start()
             mixer.music.play()
             self.ids.play_pause_replay_button.icon = "pause-circle-outline"

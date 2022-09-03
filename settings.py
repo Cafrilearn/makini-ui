@@ -8,8 +8,8 @@ from kivy.lang import Builder
 fn_path = join(os.getcwd(), 'assets', 'fonts')
 
 # Define Window size
-Window.fullscreen = True
-# Window.size = (800, 480)
+# Window.fullscreen = True
+Window.size = (800, 480)
 
 Builder.load_file("kivy-files/welcome.kv")
 Builder.load_file("kivy-files/subject-list.kv")

@@ -1,0 +1,3 @@
+from science.human_body.reproductive_system import reproductive_system
+from science.human_body.heart import heart
+from science.human_body.digestive_system import digestive_system
