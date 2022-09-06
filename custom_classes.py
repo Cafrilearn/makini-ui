@@ -4,7 +4,9 @@ from threading import Thread
 from time import sleep
 
 import pygame.event
+from kivy.animation import Animation
 from kivy.clock import Clock
+from kivy.metrics import dp
 from kivy.properties import StringProperty, ListProperty, NumericProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
@@ -507,3 +509,30 @@ class ScrollableLabel(ScrollView):
 
 class ConversationScreen(Screen):
     """ Implements the conversation screen """
+    def __init__(self, **kwargs):
+        super(ConversationScreen, self).__init__(**kwargs)
+
+    def start_listening(self, widget):
+        self.ids.mic.icon = "minus"
+        self.ids.instruction.text = "Listening..."
+
+        anim = Animation(user_font_size=dp(50), duration=2)
+        anim += Animation(user_font_size=dp(30), duration=2)
+        anim.repeat = True
+        print(widget)
+        anim.start(widget)
+
+    def start_animation(self, *args):
+        # anim = Animation(size_hint=(.6, .6), duration=2.)
+        # anim &= Animation(size_hint=(.5, .5), duration=2.)
+        # anim.repeat = True
+        # anim.start(self.ids.animated_image)
+        # print(type(self.ids.animated_image))
+
+        anim = Animation(x=1, y=1)
+        anim.start(self.ids.animated_image)
+
+
+class SplashScreen(Screen):
+    def __init__(self, **kwargs):
+        super(SplashScreen, self).__init__(**kwargs)

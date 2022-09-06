@@ -1,0 +1,92 @@
+<SplashScreen>:
+    name: 'SplashScreen'
+
+#    MDFloatLayout:
+#        md_bg_color: hex_color('#FFFFFF')
+#
+#        Image:
+#            id: animated_image
+#            source: "assets/logo/makini.png"
+#            pos_hint: {"center_x": .5, "center_y": .7}
+#            size_hint: .5, .5
+#
+#        MDLabel:
+#            text: "MARA KIDS"
+#            font_name: "BPoppins"
+#            halign: "center"
+#            font_size: "40sp"
+#            theme_style: "Custom"
+#            color: hex_color("#ff7400")
+#            pos_hint: {"center_x": .5, "center_y": .4}
+#
+#        Image:
+#            id: animated_image
+#            source: "assets/logo/mara.png"
+#            pos_hint: {"center_x": .5, "center_y": .2}
+#            size_hint: .2, .2
+#
+#        MDFillRoundFlatButton:
+#            text: "Start now"
+#            font_name: "BPoppins"
+#            font_size: '15sp'
+#            size_hint: .35, .09
+#            md_bg_color : hex_color("#00a18d")
+#            pos_hint: {'center_x': .5, 'center_y': .09}
+#            on_release:
+#                root.manager.transition.direction = 'left'
+#                root.manager.current = 'welcome'
+
+
+    MDBoxLayout:
+        orientation: "horizontal"
+
+        MDFloatLayout:
+            size_hint_x: .5
+            md_bg_color: hex_color('#00a18d')
+
+            Image:
+                id: animated_image
+                source: "assets/logo/makini.png"
+                pos_hint: {"center_x": .5, "center_y": .8}
+                size_hint: .5, .5
+
+            MDLabel:
+                text: "MARA"
+                font_name: "BPoppins"
+                halign: "center"
+                font_size: "40sp"
+                theme_style: "Custom"
+                color: hex_color("#ffffff")
+                pos_hint: {"center_x": .83, "center_y": .35}
+
+        MDFloatLayout:
+            size_hint_x: .5
+            md_bg_color: 1, 1, 1, 1
+
+            MDLabel:
+                text: "KIDS"
+                font_name: "BPoppins"
+                halign: "center"
+                font_size: "40sp"
+                theme_style: "Custom"
+                color: hex_color("#00a18d")
+                pos_hint: {"center_x": .12, "center_y": .35}
+
+            Image:
+                id: animated_image
+                source: "assets/logo/mara.png"
+                pos_hint: {"center_x": .5, "center_y": .8}
+                size_hint: .5, .5
+
+            MDRectangleFlatIconButton:
+                icon: "forward"
+                pos_hint: {"center_x": .7, "center_y": .15}
+                theme_text_color: "Custom"
+                text_color: hex_color('#00a18d')
+                line_color: 1, 1, 1, 1
+                font_name: "MPoppins"
+                theme_icon_color: "Custom"
+                icon_color: hex_color('#00a18d')
+                on_release:
+                    root.manager.transition.direction = 'left'
+                    root.manager.current = 'welcome'

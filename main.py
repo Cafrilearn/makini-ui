@@ -13,13 +13,16 @@ class MakiniApp(MDApp):
     def __init__(self, **kwargs):
         super(MakiniApp, self).__init__(**kwargs)
         self.screen_manager = ScreenManager()
-        if os.path.exists("marker.txt"):
-            f = open("marker.txt", 'w')
-        else:
-            self.screen_manager.add_widget(WelcomeScreen())
-            f = open("marker.txt", 'a')
+        # if os.path.exists("marker.txt"):
+        #     f = open("marker.txt", 'w')
+        # else:
+        #     self.screen_manager.add_widget(WelcomeScreen())
+        #     f = open("marker.txt", 'a')
 
     def build(self):
+        self.screen_manager.add_widget(SplashScreen())
+        self.screen_manager.add_widget(WelcomeScreen())
+
         self.screen_manager.add_widget(SubjectListScreen())
 
         # Mathematics
