@@ -70,23 +70,21 @@
                 font_size: "40sp"
                 theme_style: "Custom"
                 color: hex_color("#00a18d")
-                pos_hint: {"center_x": .12, "center_y": .35}
+                pos_hint: {"center_x": .13, "center_y": .35}
 
             Image:
                 id: animated_image
                 source: "assets/logo/mara.png"
                 pos_hint: {"center_x": .5, "center_y": .8}
-                size_hint: .5, .5
+                size_hint: .8, .8
 
-            MDRectangleFlatIconButton:
-                icon: "forward"
-                pos_hint: {"center_x": .7, "center_y": .15}
-                theme_text_color: "Custom"
-                text_color: hex_color('#00a18d')
-                line_color: 1, 1, 1, 1
-                font_name: "MPoppins"
-                theme_icon_color: "Custom"
-                icon_color: hex_color('#00a18d')
+            MDFillRoundFlatButton:
+                text: "Let's go"
+                font_name: "BPoppins"
+                font_size: '15sp'
+                size_hint: .3, .09
+                md_bg_color : hex_color("#ff7400")
+                pos_hint: {'center_x': 0, 'center_y': .15}
                 on_release:
                     root.manager.transition.direction = 'left'
                     root.manager.current = 'welcome'
