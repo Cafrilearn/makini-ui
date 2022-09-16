@@ -3,6 +3,7 @@ from subjects.science.human_body import heart
 from subjects.science.human_body import digestive_system
 
 from subjects.financial_literacy import blockchain
+from subjects.financial_literacy import loans_and_savings
 
 
 
@@ -76,11 +77,11 @@ db = {
             },
             "functions": {
                 "description": "Sub topic Content description goes here",
-                "content": content,
+                "content": blockchain,
             },
             "introduction to bitcoin": {
                 "description": "Sub topic Content description goes here",
-                "content": content,
+                "content": blockchain,
             },
             "getting started": {
                 "description": "Sub topic Content description goes here",
@@ -92,15 +93,15 @@ db = {
 
             "first subtopic": {
                 "description": "Content description goes here",
-                "content": content,
+                "content": loans_and_savings,
             },
             "second subtopic": {
                 "description": "Content description goes here",
-                "content": content,
+                "content": loans_and_savings,
             },
             "third subtopic": {
                 "description": "Content description goes here",
-                "content": content,
+                "content": loans_and_savings,
             },
         },
     },

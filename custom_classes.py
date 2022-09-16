@@ -536,3 +536,16 @@ class ConversationScreen(Screen):
 class SplashScreen(Screen):
     def __init__(self, **kwargs):
         super(SplashScreen, self).__init__(**kwargs)
+
+    def on_enter(self):
+        Clock.schedule_once(self.switch_to_onboarding, 6)
+        anim1 = Animation(pos_hint={"center_x": .35, "center_y": .5}, duration=2.)
+        anim2 = Animation(pos_hint={"center_x": .55, "center_y": .5}, duration=2.)
+        anim1.repeat = True
+        anim2.repeat = True
+        anim1.start(self.ids.animated_image)
+        anim2.start(self.ids.label)
+
+    def switch_to_onboarding(self, *args):
+        self.manager.transition = SlideTransition()
+        self.manager.current = "welcome"

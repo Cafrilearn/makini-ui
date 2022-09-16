@@ -1,1 +1,2 @@
 from subjects.financial_literacy.blockchain.blockchain_content import blockchain
+from subjects.financial_literacy.loans_and_savings.loans_and_savings_content import loans_and_savings
